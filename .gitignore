@@ -2,3 +2,4 @@ local.env
 outputs/
 data/
 __pycache__/
+shared/
