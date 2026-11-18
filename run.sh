@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Full inference on one French medical report: Report-Extractor (GLiNER) -> retriever top 100 -> reranker.
+# Full inference on one French medical report: Report-Extractor (GLiNER) -> retriever top 100 -> cross-encoder.
 #   bash run.sh REPORT.txt [GPU] [options of link_entities.py, e.g. --no-rerank --top 10 --keep gpu]
 # Writes outputs/<name>_entities.json (step 1) and outputs/<name>_linked.{json,tsv} (step 2).
 set -euo pipefail
@@ -18,4 +18,4 @@ CUDA_VISIBLE_DEVICES="" "$GLINER_PYTHON" "$HERE/Report-Extractor/extract_medical
 echo "== step 2: linking (GPU $GPU)"
 cd "$HERE"
 CUDA_VISIBLE_DEVICES=$GPU "$LINK_PYTHON" "$HERE/link_entities.py" \
-    "$HERE/outputs/${NAME}_entities.json" --out "$HERE/outputs/${NAME}_linked" "$@"
+    "$HERE/outputs/${NAME}_entities.json" --report "$REPORT" --out "$HERE/outputs/${NAME}_linked" "$@"
